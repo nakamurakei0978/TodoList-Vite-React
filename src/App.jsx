@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import TodoList from "./components/TodoList"
 import TodoTitle from "./components/TodoTitle"
 import AddButton from "./components/AddButton"
 
 function App() {
-  const [todos, setTodo] = useState([])
+  const [todos, setTodo] = useState(JSON.parse(localStorage.getItem('todos')) || [])
   const [inputValue, setInputValue] = useState('')
 
+  useEffect(()=>{
+    localStorage.setItem('todos', JSON.stringify(todos))
+  },[todos])
 
   const addTodo = (newTodo)=> inputValue ? (setTodo([...todos, newTodo]), setInputValue('')) : alert('Need to input something')
   const RemoveItem = (removeIndex)=> setTodo(todos.filter((i, index)=>index !== removeIndex))
